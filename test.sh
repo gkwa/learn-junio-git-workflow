@@ -6,17 +6,17 @@ topdir=`pwd`
 
 ai='tm'
 
-rm -rf myproject
+rm -rf p
 
-mkdir -p myproject &&
-    cd myproject &&
+mkdir -p p &&
+    cd p &&
     touch Makefile &&
     touch script.sh &&
     git init &&
     git add -A &&
     git commit -am "Initial commit"
 
-cd $topdir/myproject
+cd $topdir/p
 
 git checkout -B $ai/scpinsteadrsync master &&
     touch copyscript.sh &&
@@ -27,7 +27,7 @@ git checkout -B $ai/scpinsteadrsync master &&
     git add copyscript.sh &&
     git commit -am "Add witespace"
 
-cd $topdir/myproject
+cd $topdir/p
 
 git checkout -B $ai/funkyidea master &&
     touch funk.sh &&
@@ -38,35 +38,42 @@ git checkout -B $ai/funkyidea master &&
     git add funk.sh &&
     git commit -am "Add funk"
 
-cd $topdir/myproject
+cd $topdir/p
 
 git checkout -B $ai/pythonreplacebash master &&
     touch funk.py &&
     git add funk.py &&
     git commit -am "python beats bash any day"
 
+cd $topdir/p
+
+git checkout -B $ai/improveperformance master &&
+    touch fast-op.sh &&
+    git add fast-op.sh &&
+    git commit -am "No script is faster than one with no operations in it"
+
 ##################################################
 # Add meta
 ##################################################
 
-cd $topdir/myproject
+cd $topdir/p
 git clone $topdir/git Meta
-cd $topdir/myproject/Meta
+cd $topdir/p/Meta
 [ -z "$(git show-ref refs/heads/todo)" ] &&
     git checkout origin/todo
 
-# Now we have the myproject/Meta/cook script in place
+# Now we have the p/Meta/cook script in place
 
 # truncate Meta/whats-cooking.txt
-cd $topdir/myproject/Meta
+cd $topdir/p/Meta
 perl -i.bak -ane '$x=qq/-/x50; $count++ if ($x eq pop(@F)); print if ($count<2)' whats-cooking.txt
 perl -e 'print qq/-/x50,qq/\n/' >>whats-cooking.txt
-cd $topdir/myproject
+cd $topdir/p
 cat Meta/whats-cooking.txt
 
-# Now we have the myproject/Meta/whats-cooking.txt logfile in place
+# Now we have the p/Meta/whats-cooking.txt logfile in place
 
-cd $topdir/myproject
+cd $topdir/p
 
 # Fork integration branches from master
 git checkout -B maint master
@@ -78,7 +85,7 @@ git checkout -B pu master
 # the "New topics" section,
 ##################################################
 
-cd $topdir/myproject
+cd $topdir/p
 
 git checkout pu
 git merge --no-edit $ai/funkyidea
@@ -95,7 +102,7 @@ cat Meta/whats-cooking.txt
 # moved to the "Graduated to master" section
 ##################################################
 
-cd $topdir/myproject
+cd $topdir/p
 
 git checkout master
 git merge next
@@ -109,7 +116,7 @@ cat Meta/whats-cooking.txt
 # ">>".
 ##################################################
 
-cd $topdir/myproject
+cd $topdir/p
 
 git checkout next
 git merge --no-edit pu
@@ -123,17 +130,9 @@ cat Meta/whats-cooking.txt
 # phrases are supported).
 ##################################################
 
-cd $topdir/myproject
+cd $topdir/p
 
-git checkout pu &&
-git merge --no-edit $ai/pythonreplacebash &&
+git checkout pu
+git merge --no-edit $ai/improveperformance
 Meta/cook
 cat Meta/whats-cooking.txt
-
-echo
-echo
-
-echo >>Meta/whats-cooking.txt
-echo Waiting for reponse from josh on this. >>Meta/whats-cooking.txt
-
-Meta/cook -w
