@@ -81,6 +81,21 @@ git checkout -B next master
 git checkout -B pu master
 
 ##################################################
+# $ Meta/cook -w which will pick up comments given to the topics, such as
+# "Will merge to 'next'", etc. (see Meta/cook script to learn what kind of
+# phrases are supported).
+##################################################
+
+cd $topdir/p
+
+git checkout pu
+git merge --no-edit $ai/improveperformance
+Meta/cook
+echo >>Meta/whats-cooking.txt
+echo Waiting for reponse from tom on this. >>Meta/whats-cooking.txt
+Meta/cook -w
+
+##################################################
 # Topics not listed in the file but are found in master..pu are added to
 # the "New topics" section,
 ##################################################
@@ -124,15 +139,6 @@ git merge --no-edit pu
 Meta/cook
 cat Meta/whats-cooking.txt
 
-##################################################
-# $ Meta/cook -w which will pick up comments given to the topics, such as
-# "Will merge to 'next'", etc. (see Meta/cook script to learn what kind of
-# phrases are supported).
-##################################################
 
-cd $topdir/p
 
-git checkout pu
-git merge --no-edit $ai/improveperformance
-Meta/cook
-cat Meta/whats-cooking.txt
+Meta/cook -w
